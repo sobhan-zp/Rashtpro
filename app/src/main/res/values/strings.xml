@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">rasht pro</string>
+
+    <string name="slide1_title">slide1</string>
+    <string name="slide2_title">slide2</string>
+    <string name="slide3_title">slide3</string>
+    <string name="slide4_title">slide4</string>
+    <string name="slide1_subtitle">your text here</string>
+    <string name="slide2_subtitle">your text here</string>
+    <string name="slide3_subtitle">your text here</string>
+    <string name="slide4_subtitle">your text here</string>
+    <string name="input_phone">لطفا شماره موبایل خود را وارد کنید</string>
+    <string name="login">ورود</string>
+</resources>
