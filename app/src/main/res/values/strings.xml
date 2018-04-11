@@ -12,4 +12,19 @@
     <string name="input_phone">لطفا شماره موبایل خود را وارد کنید</string>
     <string name="login">ورود</string>
     <string name="save">ثبت</string>
+    <string name="title_activity_body">BodyActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+
+
+    <string name="profile">پروفایل</string>
+    <string name="map">نقشه</string>
+    <string name="music">موزیک</string>
+    <string name="gallery">گالری</string>
+    <string name="home">خانه</string>
+
+
+
 </resources>

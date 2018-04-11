@@ -31,8 +31,9 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".Activity.ProfileActivity" />
-        <activity android:name=".Activity.EnterProfileActivity"></activity>
+        <activity android:name=".Fragment.FragmentProfile" />
+        <activity android:name=".Activity.EnterProfileActivity" />
+        <activity android:name=".Fragment.BodyActivity"></activity>
     </application>
 
 </manifest>

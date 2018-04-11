@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#616161</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="slide1">#26c6da</color>
@@ -11,4 +11,16 @@
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+
+
+
+
+    <color name="textappbar">#ffffff</color>
+    <color name="alart">#005be4</color>
+    <color name="blue">#00abea</color>
+    <color name="blue_dark">#023d53</color>
+    <color name="bg_bottombar">#ffffff</color>
+
+
+
 </resources>
