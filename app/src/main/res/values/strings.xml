@@ -11,4 +11,5 @@
     <string name="slide4_subtitle">your text here</string>
     <string name="input_phone">لطفا شماره موبایل خود را وارد کنید</string>
     <string name="login">ورود</string>
+    <string name="save">ثبت</string>
 </resources>

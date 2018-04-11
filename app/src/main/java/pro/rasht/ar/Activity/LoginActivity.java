@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -28,13 +29,23 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import java.io.File;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pro.rasht.ar.R;
 import za.co.riggaroo.materialhelptutorial.TutorialItem;
 import za.co.riggaroo.materialhelptutorial.tutorial.MaterialTutorialActivity;
 
 public class LoginActivity extends AppCompatActivity implements ImageLoadingListener {
+
     private static final int REQUEST_CODE = 1234;
     SharedPreferences prefs;
+
+
+    @BindView(R.id.btn_login_login)
+    Button btnLoginLogin;
+
+
     private GoogleApiClient client;
 
     //background
@@ -45,10 +56,12 @@ public class LoginActivity extends AppCompatActivity implements ImageLoadingList
     private DisplayImageOptions options;
     private ImageLoader imageLoader = ImageLoader.getInstance();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
         // Start code for Intro App
         prefs = getSharedPreferences("pro.rasht.ar", MODE_PRIVATE);
@@ -67,8 +80,15 @@ public class LoginActivity extends AppCompatActivity implements ImageLoadingList
         loadImage();
         // End code for Background Page
 
-    }
 
+        btnLoginLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this , EnterProfileActivity.class));
+            }
+        });
+
+    }
 
 
     // Start code for Background Page
@@ -129,10 +149,6 @@ public class LoginActivity extends AppCompatActivity implements ImageLoadingList
     }
 
 
-
-
-
-
     // Start code for Intro App
     public void loadTutorial() {
         Intent mainAct = new Intent(this, MaterialTutorialActivity.class);
@@ -140,6 +156,7 @@ public class LoginActivity extends AppCompatActivity implements ImageLoadingList
         startActivityForResult(mainAct, REQUEST_CODE);
 
     }
+
     private ArrayList<TutorialItem> getTutorialItems(Context context) {
         TutorialItem tutorialItem1 = new TutorialItem(R.string.slide1_title, R.string.slide1_subtitle,
                 R.color.slide1, R.drawable.tut_page_3_foreground, R.drawable.tut_page_3_foreground);
