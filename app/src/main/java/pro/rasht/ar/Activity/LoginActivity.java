@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pro.rasht.ar.Fragment.BodyActivity;
 import pro.rasht.ar.R;
 import za.co.riggaroo.materialhelptutorial.TutorialItem;
 import za.co.riggaroo.materialhelptutorial.tutorial.MaterialTutorialActivity;
@@ -84,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements ImageLoadingList
         btnLoginLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this , EnterProfileActivity.class));
+                startActivity(new Intent(LoginActivity.this , BodyActivity.class));
             }
         });
 

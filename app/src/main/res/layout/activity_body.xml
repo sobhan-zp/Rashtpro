@@ -141,7 +141,7 @@
                         android:id="@+id/img_music_body"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@mipmap/ic_music"
+                        android:src="@mipmap/ic_radio"
                         android:tint="@color/black"
                         tools:ignore="ContentDescription" />
 

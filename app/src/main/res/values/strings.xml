@@ -21,10 +21,11 @@
 
     <string name="profile">پروفایل</string>
     <string name="map">نقشه</string>
-    <string name="music">موزیک</string>
+    <string name="music">پادکست</string>
     <string name="gallery">گالری</string>
     <string name="home">خانه</string>
-
+    <string name="tv_ar">واقعیت افزوده</string>
+    <string name="tv_vr">واقعیت مجازی</string>
 
 
 </resources>
