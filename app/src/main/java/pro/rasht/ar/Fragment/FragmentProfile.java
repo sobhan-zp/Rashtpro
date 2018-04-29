@@ -1,20 +1,18 @@
 package pro.rasht.ar.Fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Button;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pro.rasht.ar.Classes.CircularImageView;
+import butterknife.Unbinder;
 import pro.rasht.ar.R;
 
 ;
@@ -22,15 +20,18 @@ import pro.rasht.ar.R;
 public class FragmentProfile extends Fragment {
 
 
+    @BindView(R.id.btn_insert_profile)
+    Button btnInsertProfile;
 
+    Unbinder unbinder;
     private FragmentActivity contInst;
     private View view;
     private LinearLayoutManager mLayoutManager;
 
-    public static FragmentMap newInstance() {
+    public static FragmentProfile newInstance() {
 
         Bundle args = new Bundle();
-        FragmentMap fragment = new FragmentMap();
+        FragmentProfile fragment = new FragmentProfile();
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,23 +44,15 @@ public class FragmentProfile extends Fragment {
         //java code
 
 
-
-
-
-
-
-
-
-
-
-
-
         ///java code
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
 
-
-
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

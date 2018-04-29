@@ -9,7 +9,6 @@ import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.rasht.ar.Classes.CircularImageView;
-import pro.rasht.ar.Fragment.BodyActivity;
 import pro.rasht.ar.R;
 
 public class EnterProfileActivity extends AppCompatActivity {

@@ -49,7 +49,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     //vr imageview
     compile 'com.gjiazhe:PanoramaImageView:1.0'
-
+    //qr scan
+    compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.2'
 
 
 }

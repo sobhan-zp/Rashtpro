@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -31,8 +28,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import pro.rasht.ar.Fragment.BodyActivity;
 import pro.rasht.ar.R;
 import za.co.riggaroo.materialhelptutorial.TutorialItem;
 import za.co.riggaroo.materialhelptutorial.tutorial.MaterialTutorialActivity;
@@ -120,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements ImageLoadingList
 
         imageLoader.init(config);
 
-        imageLoader.displayImage("http://loper.ir/Rasht-Pro/bg_login.png", mImg, options, this);
+        imageLoader.displayImage("http://loper.ir/rasht-pro/bg_login.png", mImg, options, this);
 
     }
 

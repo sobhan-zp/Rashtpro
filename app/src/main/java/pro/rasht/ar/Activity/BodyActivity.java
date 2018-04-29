@@ -1,15 +1,25 @@
-package pro.rasht.ar.Fragment;
+package pro.rasht.ar.Activity;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pro.rasht.ar.Fragment.Items_Viewpager_market;
+import pro.rasht.ar.Fragment.NonSwipeableViewPager;
 import pro.rasht.ar.R;
 
 public class BodyActivity extends AppCompatActivity {
@@ -47,19 +57,57 @@ public class BodyActivity extends AppCompatActivity {
         pager = (NonSwipeableViewPager) findViewById(R.id.viewpager);
         Items_Viewpager_market adapter_articles = new Items_Viewpager_market(getSupportFragmentManager());
         pager.setAdapter(adapter_articles);
-        pager.setCurrentItem(5, false);
-        pager.setOffscreenPageLimit(5);
+        pager.setCurrentItem(4, false);
+        pager.setOffscreenPageLimit(4);
 
 
         //defult property View
-        imgHomeBody.setVisibility(View.VISIBLE);
-
+        tvProfileBody.setVisibility(View.VISIBLE);
+        setPermission_Camera();
 
         //Bottom Navigation
 
     }
 
+    //for Permission
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 12234: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                    //dastrasi dade shode
+
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setMessage("برای اجرای برنامه باید حتما دسترسی رو به برنامه بدهید")
+                            .setCancelable(false)
+                            .setNegativeButton("دادن دسترسی", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    setPermission_Camera();
+
+                                }
+                            })
+                            .show();
+                }
+            }
+            return;
+        }
+    }
+
+    //checkPermission
+    public void setPermission_Camera() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA)) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 12234);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 12234);
+            }
+        }
+    }
 
 
     public void onCLickHome(View v) {
@@ -123,6 +171,10 @@ public class BodyActivity extends AppCompatActivity {
 
         pager.setCurrentItem(4);
     }
+
+
+
+
 
 
     //method set visible bottom bar
