@@ -51,6 +51,11 @@ dependencies {
     compile 'com.gjiazhe:PanoramaImageView:1.0'
     //qr scan
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.2'
+    //google map
+    implementation 'com.google.android.gms:play-services-maps:11.4.2'
+    //switcher
+    compile 'com.github.zcweng:switch-button:0.0.3@aar'
+
 
 
 }

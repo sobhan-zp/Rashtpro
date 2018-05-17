@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
-
+    <attr name="sb_checkline_color" format="reference|color"/>
+    <attr name="sb_checkline_width" format="reference|dimension"/>
+    <attr name="sb_uncheckcircle_color" format="reference|color"/>
 </resources>
