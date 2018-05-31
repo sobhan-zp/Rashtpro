@@ -1,6 +1,7 @@
 package pro.rasht.ar.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,13 +12,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.gjiazhe.panoramaimageview.GyroscopeObserver;
-import com.gjiazhe.panoramaimageview.PanoramaImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import pro.rasht.ar.ArModuls.ArModulActivity;
 import pro.rasht.ar.R;
 
 
@@ -38,7 +39,7 @@ public class FragmentHome extends Fragment {
     private View view;
     private LinearLayoutManager mLayoutManager;
 
-    private GyroscopeObserver gyroscopeObserver;
+    private ImageView gyroscopeObserver;
 
     public static FragmentHome newInstance() {
 
@@ -55,14 +56,17 @@ public class FragmentHome extends Fragment {
         context = getActivity();
         //java code
 
-        gyroscopeObserver = new GyroscopeObserver();
-
-        PanoramaImageView panoramaImageView = (PanoramaImageView)view.findViewById(R.id.panorama_image_view);
-        panoramaImageView.setGyroscopeObserver(gyroscopeObserver);
-
-
-        ///java code
+        ImageView panoramaImageView = (ImageView)view.findViewById(R.id.panorama_image_view);
         unbinder = ButterKnife.bind(this, view);
+
+
+        cvArHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, ArModulActivity.class));
+            }
+        });
+
         return view;
     }
 
@@ -73,17 +77,6 @@ public class FragmentHome extends Fragment {
 
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        gyroscopeObserver.register(context);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        gyroscopeObserver.unregister();
-    }
 
     @Override
     public void onDestroyView() {

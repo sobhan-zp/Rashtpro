@@ -82,7 +82,7 @@
                     android:elevation="5dp"
                     android:layout_margin="15dp">
 
-                    <com.gjiazhe.panoramaimageview.PanoramaImageView
+                    <ImageView
                         android:id="@+id/panorama_image_view"
                         android:layout_width="match_parent"
                         android:layout_height="135dp"
