@@ -47,13 +47,17 @@ dependencies {
     implementation 'com.google.android.gms:play-services:11.0.2'
     //switcher
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+    //volley
+    implementation 'com.mcxiaoke.volley:library:1.0.19'
+    //font
+    implementation 'uk.co.chrisjenx:calligraphy:2.2.0'
 
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation 'com.android.support.constraint:constraint-layout:1.1.0-beta4'
-    androidTestCompile 'junit:junit:4.12'
+    androidTestImplementation 'junit:junit:4.12'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
         transitive = true;
     }

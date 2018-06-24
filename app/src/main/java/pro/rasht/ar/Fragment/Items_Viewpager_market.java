@@ -30,8 +30,6 @@ public class Items_Viewpager_market extends FragmentPagerAdapter {
                 return FragmentGallery.newInstance();
             case 2:
                 return FragmentMusic.newInstance();
-            case 3:
-                return FragmentMap.newInstance();
             case 4:
                 return FragmentProfile.newInstance();
             default:

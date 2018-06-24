@@ -1,9 +1,9 @@
 package pro.rasht.ar.Activity;
 
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -14,13 +14,6 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.location.places.Places;
-import com.google.android.gms.location.places.ui.PlacePicker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,10 +27,6 @@ public class BodyActivity extends AppCompatActivity {
     ImageView imgProfileBody;
     @BindView(R.id.tv_profile_body)
     TextView tvProfileBody;
-    @BindView(R.id.img_map_body)
-    ImageView imgMapBody;
-    @BindView(R.id.tv_map_body)
-    TextView tvMapBody;
     @BindView(R.id.img_music_body)
     ImageView imgMusicBody;
     @BindView(R.id.tv_music_body)
@@ -152,7 +141,7 @@ public class BodyActivity extends AppCompatActivity {
         pager.setCurrentItem(2);
     }
 
-    public void onCLickMap(View v) {
+   /* public void onCLickMap(View v) {
         setVisibiltyBottomBar(tvMapBody);
         Animation animation = new TranslateAnimation(0, 0, 15, 0);
         Animation animation1 = new TranslateAnimation(0, 0, 70, 0);
@@ -164,7 +153,7 @@ public class BodyActivity extends AppCompatActivity {
         pager.setCurrentItem(3);
 
 
-    }
+    }*/
 
     public void onCLickProfile(View v) {
         setVisibiltyBottomBar(tvProfileBody);
@@ -198,9 +187,13 @@ public class BodyActivity extends AppCompatActivity {
         tvHomeBody.setVisibility(View.GONE);
         tvGalleryBody.setVisibility(View.GONE);
         tvMusicBody.setVisibility(View.GONE);
-        tvMapBody.setVisibility(View.GONE);
         tvProfileBody.setVisibility(View.GONE);
         tv.setVisibility(View.VISIBLE);
     }
+
+
+
+
+
 }
 

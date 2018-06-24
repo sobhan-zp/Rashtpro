@@ -9,6 +9,8 @@
 package pro.rasht.ar.ArModuls;
 
 import java.util.ArrayList;
+
+import android.nfc.Tag;
 import android.opengl.GLES20;
 import android.util.Log;
 
@@ -28,10 +30,13 @@ import cn.easyar.TargetInstance;
 import cn.easyar.TargetStatus;
 import cn.easyar.Vec2I;
 import cn.easyar.Vec4I;
+import pro.rasht.ar.Network.AppController;
 
-public class HelloAR
-{
-    private int NUMBER_TRACKER = 13;
+public class HelloAR {
+    private int target_id = 0;
+
+    private int NUMBER_TRACKER = AppController.TARGET_NUMBERS;
+
     private CameraDevice camera;
     private CameraFrameStreamer streamer;
     private ArrayList<ImageTracker> trackers;
@@ -46,24 +51,24 @@ public class HelloAR
     private int rotation = 0;
     private Vec4I viewport = new Vec4I(0, 0, 1280, 720);
 
-    public HelloAR()
-    {
+    public HelloAR() {
         trackers = new ArrayList<ImageTracker>();
     }
 
-    private void loadFromImage(ImageTracker tracker, String path)
-    {
+    private void loadFromImage(ImageTracker tracker, String path, int i) {
         ImageTarget target = new ImageTarget();
         String jstr = "{\n"
-            + "  \"images\" :\n"
-            + "  [\n"
-            + "    {\n"
-            + "      \"image\" : \"" + path + "\",\n"
-            + "      \"name\" : \"" + path.substring(0, path.indexOf(".")) + "\"\n"
-            + "    }\n"
-            + "  ]\n"
-            + "}";
-        target.setup(jstr, StorageType.Assets | StorageType.Json, "");
+                + "  \"images\" :\n"
+                + "  [\n"
+                + "    {\n"
+                + "      \"image\" : \"" + AppController.TARGET_PATH.get(i) + "/" + path + "\",\n"
+                + "      \"name\" : \"" + path.substring(0, path.indexOf(".")) + "\"\n"
+                + "    }\n"
+                + "  ]\n"
+                + "}";
+
+
+        target.setup(jstr, StorageType.App | StorageType.Json, "");
         tracker.loadTarget(target, new FunctorOfVoidFromPointerOfTargetAndBool() {
             @Override
             public void invoke(Target target, boolean status) {
@@ -73,8 +78,7 @@ public class HelloAR
         });
     }
 
-    private void loadAllFromJsonFile(ImageTracker tracker, String path)
-    {
+    private void loadAllFromJsonFile(ImageTracker tracker, String path) {
         for (ImageTarget target : ImageTarget.setupAll(path, StorageType.Assets)) {
             tracker.loadTarget(target, new FunctorOfVoidFromPointerOfTargetAndBool() {
                 @Override
@@ -90,8 +94,7 @@ public class HelloAR
 
     }
 
-    public boolean initialize()
-    {
+    public boolean initialize() {
         camera = new CameraDevice();
         streamer = new CameraFrameStreamer();
         streamer.attachCamera(camera);
@@ -100,29 +103,24 @@ public class HelloAR
         status &= camera.open(CameraDeviceType.Default);
         camera.setSize(new Vec2I(1280, 720));
 
-        if (!status) { return status; }
+        if (!status) {
+            return status;
+        }
         ImageTracker tracker = new ImageTracker();
         tracker.attachStreamer(streamer);
-        loadAllFromJsonFile(tracker, "targets.json");
-        loadFromImage(tracker, "namecard.jpg");
-        loadFromImage(tracker, "a.jpg");
-        loadFromImage(tracker, "b.jpg");
-        loadFromImage(tracker, "c.jpg");
-        loadFromImage(tracker, "d.jpg");
-        loadFromImage(tracker, "e.jpg");
-        loadFromImage(tracker, "f.jpg");
-        loadFromImage(tracker, "g.jpg");
-        loadFromImage(tracker, "h.jpg");
-        loadFromImage(tracker, "i.jpg");
-        loadFromImage(tracker, "j.jpg");
+
+
+        for (int i = 0; i < AppController.TARGET.size(); i++) {
+            loadFromImage(tracker, AppController.TARGET.get(i).getName(), i);
+        }
+
 
         trackers.add(tracker);
 
         return status;
     }
 
-    public void dispose()
-    {
+    public void dispose() {
         if (video != null) {
             video.dispose();
             video = null;
@@ -150,8 +148,7 @@ public class HelloAR
         }
     }
 
-    public boolean start()
-    {
+    public boolean start() {
 
         boolean status = true;
         status &= (camera != null) && camera.start();
@@ -163,8 +160,7 @@ public class HelloAR
         return status;
     }
 
-    public boolean stop()
-    {
+    public boolean stop() {
         boolean status = true;
         for (ImageTracker tracker : trackers) {
             status &= tracker.stop();
@@ -174,13 +170,12 @@ public class HelloAR
         return status;
     }
 
-    public void initGL()
-    {
+    public void initGL() {
 
         if (active_target != 0) {
             video.onLost();
             video.dispose();
-            video  = null;
+            video = null;
             tracked_target = 0;
             active_target = 0;
         }
@@ -197,14 +192,12 @@ public class HelloAR
         current_video_renderer = null;
     }
 
-    public void resizeGL(int width, int height)
-    {
+    public void resizeGL(int width, int height) {
         view_size = new Vec2I(width, height);
         viewport_changed = true;
     }
 
-    private void updateViewport()
-    {
+    private void updateViewport() {
         CameraCalibration calib = camera != null ? camera.cameraCalibration() : null;
         int rotation = calib != null ? calib.rotation() : 0;
         if (rotation != this.rotation) {
@@ -228,8 +221,7 @@ public class HelloAR
         }
     }
 
-    public void render()
-    {
+    public void render() {
         GLES20.glClearColor(1.f, 1.f, 1.f, 1.f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
@@ -241,7 +233,9 @@ public class HelloAR
             }
         }
 
-        if (streamer == null) { return; }
+        if (streamer == null) {
+            return;
+        }
         Frame frame = streamer.peek();
         try {
             updateViewport();
@@ -261,79 +255,53 @@ public class HelloAR
                     if (active_target != 0 && active_target != id) {
                         video.onLost();
                         video.dispose();
-                        video  = null;
+                        video = null;
                         tracked_target = 0;
                         active_target = 0;
                     }
                     if (tracked_target == 0) {
                         if (video == null && video_renderers.size() > 0) {
                             String target_name = target.name();
-                            if (target_name.equals("argame") && video_renderers.get(0).texId() != 0) {
+
+
+
+                            if (target_id >= NUMBER_TRACKER) target_id = 0;
+
+                            pro.rasht.ar.Model.Target t = AppController.TARGET.get(getTargetId(target_name));
+
+                            Log.e("TAG------id", "" + video_renderers.get(target_id).texId());
+                            Log.e("TAG------name", t.getName().substring(0, t.getName().indexOf(".")));
+
+                            if (target_name.equals(t.getName().substring(0, t.getName().indexOf(".")))
+                                    && video_renderers.get(target_id).texId() != 0) {
+
+                                Log.e("TAG________", "OK");
+
+                                video = new ARVideo();
+                                video.openStreamingVideo(t.getValue(), video_renderers.get(target_id).texId());
+                                current_video_renderer = video_renderers.get(target_id);
+
+                                target_id++;
+                            }
+
+
+                            /*if (target_name.equals("3586") && video_renderers.get(0).texId() != 0) {
                                 video = new ARVideo();
                                 video.openVideoFile("video.mp4", video_renderers.get(0).texId());
                                 current_video_renderer = video_renderers.get(0);
 
-                            } else if (target_name.equals("namecard") && video_renderers.get(1).texId() != 0) {
+                            } else if (target_name.equals("img") && video_renderers.get(1).texId() != 0) {
                                 video = new ARVideo();
                                 video.openTransparentVideoFile("transparentvideo.mp4", video_renderers.get(1).texId());
                                 current_video_renderer = video_renderers.get(1);
 
-                            } else if (target_name.equals("idback") && video_renderers.get(2).texId() != 0) {
+                            } else if (target_name.equals("enhanced-buzz-1492-1379411828-15") && video_renderers.get(2).texId() != 0) {
                                 video = new ARVideo();
                                 video.openStreamingVideo("https://sightpvideo-cdn.sightp.com/sdkvideo/EasyARSDKShow201520.mp4", video_renderers.get(2).texId());
                                 current_video_renderer = video_renderers.get(2);
 
-                            }else if (target_name.equals("a") && video_renderers.get(3).texId() != 0) {
-                                video = new ARVideo();
-                                video.openVideoFile("video.mp4", video_renderers.get(3).texId());
-                                current_video_renderer = video_renderers.get(3);
+                            }*/
 
-                            }else if (target_name.equals("b") && video_renderers.get(4).texId() != 0) {
-                                video = new ARVideo();
-                                video.openVideoFile("video.mp4", video_renderers.get(4).texId());
-                                current_video_renderer = video_renderers.get(4);
-
-                            }else if (target_name.equals("c") && video_renderers.get(5).texId() != 0) {
-                                video = new ARVideo();
-                                video.openVideoFile("video.mp4", video_renderers.get(5).texId());
-                                current_video_renderer = video_renderers.get(5);
-
-                            }else if (target_name.equals("d") && video_renderers.get(6).texId() != 0) {
-                                video = new ARVideo();
-                                video.openVideoFile("video.mp4", video_renderers.get(6).texId());
-                                current_video_renderer = video_renderers.get(6);
-
-                            }else if (target_name.equals("e") && video_renderers.get(7).texId() != 0) {
-                                video = new ARVideo();
-                                video.openVideoFile("video.mp4", video_renderers.get(7).texId());
-                                current_video_renderer = video_renderers.get(7);
-
-                            }else if (target_name.equals("f") && video_renderers.get(8).texId() != 0) {
-                                video = new ARVideo();
-                                video.openVideoFile("video.mp4", video_renderers.get(8).texId());
-                                current_video_renderer = video_renderers.get(8);
-
-                            }else if (target_name.equals("g") && video_renderers.get(9).texId() != 0) {
-                                video = new ARVideo();
-                                video.openVideoFile("video.mp4", video_renderers.get(9).texId());
-                                current_video_renderer = video_renderers.get(9);
-
-                            }else if (target_name.equals("h") && video_renderers.get(10).texId() != 0) {
-                                video = new ARVideo();
-                                video.openVideoFile("video.mp4", video_renderers.get(10).texId());
-                                current_video_renderer = video_renderers.get(10);
-
-                            }else if (target_name.equals("i") && video_renderers.get(11).texId() != 0) {
-                                video = new ARVideo();
-                                video.openVideoFile("video.mp4", video_renderers.get(11).texId());
-                                current_video_renderer = video_renderers.get(11);
-
-                            }else if (target_name.equals("j") && video_renderers.get(12).texId() != 0) {
-                                video = new ARVideo();
-                                video.openVideoFile("video.mp4", video_renderers.get(12).texId());
-                                current_video_renderer = video_renderers.get(12);
-
-                            }
 
                         }
                         if (video != null) {
@@ -342,7 +310,7 @@ public class HelloAR
                             active_target = id;
                         }
                     }
-                    ImageTarget imagetarget = target instanceof ImageTarget ? (ImageTarget)(target) : null;
+                    ImageTarget imagetarget = target instanceof ImageTarget ? (ImageTarget) (target) : null;
                     if (imagetarget != null) {
                         if (current_video_renderer != null) {
                             video.update();
@@ -358,9 +326,20 @@ public class HelloAR
                     tracked_target = 0;
                 }
             }
-        }
-        finally {
+        } finally {
             frame.dispose();
         }
     }
+
+
+
+    private int getTargetId(String target_name) {
+        for (pro.rasht.ar.Model.Target t : AppController.TARGET) {
+
+            if (t.getName() != null && t.getName().substring(0, t.getName().indexOf(".")).contains(target_name))
+                return Integer.parseInt(t.getId());
+        }
+        return 0;
+    }
+
 }
